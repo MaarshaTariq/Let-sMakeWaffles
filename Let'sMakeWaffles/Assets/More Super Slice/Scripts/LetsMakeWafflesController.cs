@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MoreSuperSliceController : MonoBehaviour {
+public class LetsMakeWafflesController : MonoBehaviour {
 
 	public GameObject[] answers;
 	public Animator zapeAnimator;
