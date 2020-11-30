@@ -87,8 +87,8 @@ public class MenuManager : MonoBehaviour {
 		}
 	}
 	bool clickPlay=true;
-	public void PlayGame()  
 	//Btn on start or pause
+	public void PlayGame()  
 	{
 		if (isMenu) {
 			Debug.Log ("isMenu" + isMenu);

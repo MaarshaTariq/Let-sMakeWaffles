@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public float versionNumber;
     public bool unityLogger;
 
-    public GameObject[] Panels_List;
+    public GameObject[] panelsList;
     Fade[] mode;
 	public int noOfLevels;
 	public GameObject progressBars;
@@ -35,7 +35,8 @@ public class GameManager : MonoBehaviour
     public int pauseStopPressedCount;
 	private bool accessibilty = false;
 	public bool isExternalDone = false;
-	public bool Accessibilty
+    public float levelDelay;
+    public bool Accessibilty
 	{
 		set
 		{
@@ -69,11 +70,11 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mode = new Fade[Panels_List.Length]; // initailizing the mode with repect to the level of panel's length
+        mode = new Fade[panelsList.Length]; // initailizing the mode with repect to the level of panel's length
 
-        for (int i = 0; i < Panels_List.Length; i++)
+        for (int i = 0; i < panelsList.Length; i++)
         {
-            mode[i] = Panels_List[i].GetComponent<Fade>();
+            mode[i] = panelsList[i].GetComponent<Fade>();
         }
     }
     void Update()
@@ -133,9 +134,9 @@ public class GameManager : MonoBehaviour
 	}
     public void OnButtonClicked(string BtnName) 
     {
-		if (BtnName == "FullScrren")
+        if (BtnName == "FullScrren")
         {
-			Debug.Log ("Full Screen");
+            Debug.Log("Full Screen");
             if (Screen.fullScreen)
             {
                 _ExitFullScreen();
@@ -148,28 +149,29 @@ public class GameManager : MonoBehaviour
                 Screen.fullScreen = true;
             }
         }
+       
     }
-	public float levelDelay;
 	public IEnumerator StartNewLevel(int Ind, float sec)
 	{
+        Debug.Log("Index:"+Ind);
 		if (sec != 0)
 		levelDelay = sec;
 		yield return new WaitForSeconds (levelDelay);
 
 		if (levelCounter == noOfLevels) {
-			Panels_List [noOfLevels-1].GetComponent<Fade> ().Fadeout = true;
+			panelsList [noOfLevels-1].GetComponent<Fade> ().Fadeout = true;
 			yield return new WaitForSeconds (1.2f);
-			Panels_List [noOfLevels-1].SetActive (false);
+			panelsList [noOfLevels-1].SetActive (false);
 			MenuManager.instance.EnableFinalScreen();
 			Debug.Log ("completed ");
 		} else {
 			SetProgress (Ind + 1);
 
-			for (int i = 0; i < Panels_List.Length; i++) {
+			for (int i = 0; i < panelsList.Length; i++) {
 				if (i == Ind) {
-					Panels_List [i].SetActive (true);
+					panelsList [i].SetActive (true);
 				} else {
-					Panels_List [i].SetActive (false);
+					panelsList [i].SetActive (false);
 				}
 			}
 			levelCounter++;

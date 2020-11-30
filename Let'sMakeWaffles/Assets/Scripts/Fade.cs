@@ -9,9 +9,9 @@ public class Fade : MonoBehaviour {
 	public bool Fadeout;
 	public float FadeRate=0.85f;
 	public bool FadeAtStart=true;
-	// Use this for initialization
-
-public Camera cam;
+    public Camera cam;
+	
+    // Use this for initialization
 	void OnEnable()
 	{
 		
@@ -35,7 +35,6 @@ public Camera cam;
 			}
 		 }
 		if (Fadeout) {
-			Debug.Log ("fadeOut");
 			this.gameObject.GetComponent<CanvasGroup> ().alpha -= Time.deltaTime*FadeRate;
 			if(cam!= null)
 				{

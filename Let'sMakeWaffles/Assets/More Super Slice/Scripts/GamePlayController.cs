@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MoreSuperSliceController : MonoBehaviour {
+public class GamePlayController : MonoBehaviour {
 
-	public GameObject[] answers;
-	public Transform[] answerTransforms;
-	public bool[] randomCheck;
+    public GameObject[] answers;
+    public Transform[] answerTransforms;
+    public bool[] randomCheck;
+    [HideInInspector]//Hiding it for now Because currently we are using GameManager to activate Next panels.
 	public GameObject completionScreen;
 	public int nextLevelIndex;
 	public float endDelay;
@@ -47,8 +48,8 @@ public class MoreSuperSliceController : MonoBehaviour {
 		else
 			return true;
 	}
-	public void ButtonClick(int ind)
-	{
+    public void ButtonClick(int ind)
+    {
 		if (GameManager.Instance.CanClick ()) {
 			if (ind == 2) {
 				GameManager.Instance.ClickOff ();
@@ -86,7 +87,7 @@ public class MoreSuperSliceController : MonoBehaviour {
 		if(GameManager.Instance.Accessibilty)
 			CloseCaption.CCManager.instance.CreateCaption (3+nextLevelIndex,SoundManager.instance.sounds[nextLevelIndex].length);
 		SoundManager.instance.PlaySound (nextLevelIndex);
-		completionScreen.SetActive (true);
+		//completionScreen.SetActive (true);Commenting Cuz its already being done through Coroutine
 		if(EventController.instance != null && !External.Instance.Preview)
 			EventController.instance.SetGamePercentage(++EventController.instance.levelCounter);
 		StartCoroutine(GameManager.Instance.StartNewLevel (nextLevelIndex, endDelay));
