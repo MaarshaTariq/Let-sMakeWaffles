@@ -7,7 +7,6 @@ public class GamePlayController : MonoBehaviour {
 
     public GameObject[] answers;
     public Transform[] answerTransforms;
-    public bool[] randomCheck;
     [HideInInspector]//Hiding it for now Because currently we are using GameManager to activate Next panels.
 	public GameObject completionScreen;
 	public int nextLevelIndex;
@@ -28,69 +27,84 @@ public class GamePlayController : MonoBehaviour {
 	}
 	void RandomizeAnswers()
 	{
-		int random;
-		for (int i = 0; i < 3 ;) {
-			random = Random.Range (0, 3);
-			if (CheckRandom (random)) {
-				answers [i].gameObject.transform.localPosition = answerTransforms [random].gameObject.transform.localPosition;
-				answers [i].transform.SetSiblingIndex (random);
-				//Debug.Log ("Random " + random +" on "+i);
-				randomCheck [random] = true;
-				i++;
-			}
-		}
-	}
-	bool CheckRandom(int index)
-	{
-		if (randomCheck [index]) {
-			return false;
-		} 
-		else
-			return true;
-	}
+
+        for (int i = 0; i < answerTransforms.Length; i++)
+        {
+            //Shuffling Answers list
+            int rnd = Random.Range(0, answerTransforms.Length);
+            Transform tempGO = answerTransforms[rnd];
+            answerTransforms[rnd] = answerTransforms[i];
+            answerTransforms[i] = tempGO;
+            
+        }
+
+        if (answers.Length == answerTransforms.Length)
+        {
+            for (int i = 0; i < answers.Length; i++)
+            {
+                answers[i].gameObject.transform.localPosition = answerTransforms[i].gameObject.transform.localPosition;
+            }
+
+        }
+        else
+        {
+            Debug.LogError("Answers and AnswersTransform Length doesnt matches.");
+
+        }
+
+        #region PreviousLogic
+        //      int random;
+        //for (int i = 0; i < 3 ;) {
+        //	random = Random.Range (0, 3);
+        //	if (CheckRandom (random)) {
+        //		answers [i].gameObject.transform.localPosition = answerTransforms [random].gameObject.transform.localPosition;
+        //		answers [i].transform.SetSiblingIndex (random);
+        //		//Debug.Log ("Random " + random +" on "+i);
+        //		randomCheck [random] = true;
+        //		i++;
+        //	}
+        //}
+        #endregion
+    }
+
+    
     public void ButtonClick(int ind)
     {
-		if (GameManager.Instance.CanClick ()) {
-			if (ind == 2) {
-				GameManager.Instance.ClickOff ();
-				Debug.Log ("this is true");	
-				GameManager.Instance.ClickOff ();
-				SoundManager.instance.PlaySound (15);
-				EventController.instance.correctOptionSelectionCounter++;
-				for (int i = 0; i < 3; i++) {
-					if (answers [i].name == "CorrectAnswer") {
-						if (GameManager.Instance.Accessibilty)
-							CloseCaption.CCManager.instance.CreateCaption (0, 1);
-						answers [i].GetComponent<Image> ().enabled = true;
-						break;
-					}
-				}
-				Invoke ("ZapAnimation", 0.5f);
-			} else {
-				EventController.instance.wrongOptionSelectionCounter++;
-				Debug.Log ("this is wrong");
-				if (GameManager.Instance.Accessibilty)
-					CloseCaption.CCManager.instance.CreateCaption (1, 1);
-				SoundManager.instance.PlaySound (16);
-			}
+		if (GameManager.Instance.CanClick ())
+        {
+            switch (ind)
+            {
+                case 1://Correct option Selection
+
+                    GameManager.Instance.ClickOff();
+                    SoundManager.instance.PlaySound(15);
+                    answers[2].GetComponent<Image>().enabled = true;
+                    SoundManager.instance.PlaySound(Random.Range(1,11));
+                    Invoke("ProgressLevel", endDelay);//EndDelay Being used here before level completion 
+                    break;
+
+                case 2://Incorrect option Selection
+
+                    SoundManager.instance.PlaySound(16);
+
+                    break;
+
+                default:
+                    Debug.Log("The Selection is neither Correct nor Incorrect");
+                    break;
+
+                        
+
+
+            }
 		}
 	}
-	void ZapAnimation()
+
+   
+    void ProgressLevel()
 	{
-		if(GameManager.Instance.Accessibilty)
-			CloseCaption.CCManager.instance.CreateCaption (2,1);
-		SoundManager.instance.PlaySound (17);
-		Invoke ("ActiveCompletionScreen", 3.5f);
-	}
-	void ActiveCompletionScreen()
-	{
-		if(GameManager.Instance.Accessibilty)
-			CloseCaption.CCManager.instance.CreateCaption (3+nextLevelIndex,SoundManager.instance.sounds[nextLevelIndex].length);
-		SoundManager.instance.PlaySound (nextLevelIndex);
 		//completionScreen.SetActive (true);Commenting Cuz its already being done through Coroutine
-		if(EventController.instance != null && !External.Instance.Preview)
-			EventController.instance.SetGamePercentage(++EventController.instance.levelCounter);
-		StartCoroutine(GameManager.Instance.StartNewLevel (nextLevelIndex, endDelay));
+		StartCoroutine(GameManager.Instance.StartNewLevel (nextLevelIndex, 0));//Sending Delay 0 because we ar eusing EndDelay before caling this function.
 	}
 
 }

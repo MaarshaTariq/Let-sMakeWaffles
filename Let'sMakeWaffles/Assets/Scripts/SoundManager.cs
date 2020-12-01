@@ -19,10 +19,23 @@ public class SoundManager : MonoBehaviour {
 	}
 	public void PlaySound(int index)
 	{
-		audio.clip = sounds [index];
-		audio.Play ();
-	}
-	public IEnumerator PopSounds(int count)
+        audio.clip = sounds[index];
+            audio.Play();
+    }
+
+    //Trying to wait before next sound plays
+    //public IEnumerator _playSound(int index)
+    //{
+    //    Debug.Log("Playing:"+index);
+    //    audio.clip = sounds[index];
+    //    audio.Play();
+    //    Debug.Log("Waiting for:"+audio.clip.name);
+    //    Debug.Log("Waiting for:"+audio.clip.length);
+    //    yield return new WaitForSeconds(audio.clip.length);
+    //}
+
+
+    public IEnumerator PopSounds(int count)
 	{	//audio.clip = sounds [10];
 		for (int i = 0; i < count; i++) {
 			audio.PlayOneShot (sounds [10],1f);

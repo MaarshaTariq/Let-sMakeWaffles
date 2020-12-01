@@ -90,7 +90,7 @@ public class Report
 	public void setResponsiveness(int responsiveness)
 	{
 		this.responsiveness = responsiveness;
-		Debug.Log("responsiveness: " + this.responsiveness);
+		//Debug.Log("responsiveness: " + this.responsiveness);
 	}
 
 	public double getPercentage()

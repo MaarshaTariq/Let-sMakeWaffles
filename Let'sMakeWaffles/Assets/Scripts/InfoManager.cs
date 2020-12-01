@@ -19,6 +19,7 @@ public class InfoManager : MonoBehaviour {
 	}
 	public void SetSoundIndex(int index)
 	{
+            
 		infoSoundIndex = infoSounds [index];
 		txt.text = infoTexts [index];
 	}

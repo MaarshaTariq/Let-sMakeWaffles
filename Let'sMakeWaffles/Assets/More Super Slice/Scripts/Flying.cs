@@ -5,13 +5,14 @@ using UnityEngine;
 public class Flying : MonoBehaviour {
 
 	public GameObject final;
+    public float durationAfterNextPanel;
 	// Use this for initialization
-	void Start () {
-		Invoke ("DisableScreen",4.5f);
+	void Start ()
+    {
+		Invoke ("DisableScreen", durationAfterNextPanel);
 		SoundManager.instance.PlaySound (19);
-		if(GameManager.Instance.Accessibilty)
-			CloseCaption.CCManager.instance.CreateCaption (15,SoundManager.instance.sounds[19].length);
 	}
+
 	void DisableScreen()
 	{
 		final.SetActive (true);

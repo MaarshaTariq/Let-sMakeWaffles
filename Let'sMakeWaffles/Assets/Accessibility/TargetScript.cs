@@ -38,7 +38,7 @@ public class TargetScript : MonoBehaviour, AcessibilityInterface
     void OnDisable()
     {
         Debug.Log(gameObject.name + "->OnDisable()");
-        Debug.Log("TargetScript(" + uniqueText + ")->OnDisable()");
+        //Debug.Log("TargetScript(" + uniqueText + ")->OnDisable()");
 
         if (GameManager.Instance.Accessibilty)
         {

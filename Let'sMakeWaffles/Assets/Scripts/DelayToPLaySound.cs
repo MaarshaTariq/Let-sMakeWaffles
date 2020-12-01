@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class DelayToPLaySound : MonoBehaviour {
+public class DelayToPlaySound : MonoBehaviour {
 	
 	public int AudioToPlay;
 	SoundManager Sound;
@@ -24,8 +24,8 @@ public class DelayToPLaySound : MonoBehaviour {
 	IEnumerator wait()
 	{
 		yield return new WaitForSeconds (sec);
-		SoundManager.instance.audio.clip =	SoundManager.instance.sounds [AudioToPlay];
-		SoundManager.instance.audio.Play ();
+		SoundManager.instance.GetComponent<AudioSource>().clip =	SoundManager.instance.sounds [AudioToPlay];
+		SoundManager.instance.GetComponent<AudioSource>().Play ();
 
 		
 	}

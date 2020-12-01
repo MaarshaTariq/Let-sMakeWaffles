@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mode = new Fade[panelsList.Length]; // initailizing the mode with repect to the level of panel's length
+        mode = new Fade[panelsList.Length]; // Initializing the mode with repect to the level of panel's length
 
         for (int i = 0; i < panelsList.Length; i++)
         {
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 
 	void SetProgress(int count)
 	{
-		Debug.Log ("count " + count * 2);
+		//Debug.Log ("count " + count * 2);
 		for (int i = 0; i < count * 2; i++) {
 			progressBars.transform.GetChild (i).gameObject.GetComponent<CanvasGroup> ().alpha = 1;
 		}
@@ -154,8 +154,10 @@ public class GameManager : MonoBehaviour
 	public IEnumerator StartNewLevel(int Ind, float sec)
 	{
         Debug.Log("Index:"+Ind);
-		if (sec != 0)
-		levelDelay = sec;
+        if (sec != 0)
+        {
+		    levelDelay = sec;
+        }
 		yield return new WaitForSeconds (levelDelay);
 
 		if (levelCounter == noOfLevels) {
@@ -175,7 +177,7 @@ public class GameManager : MonoBehaviour
 				}
 			}
 			levelCounter++;
-			Debug.Log ("levelcounter ++" + levelCounter);
+			//Debug.Log ("levelcounter ++" + levelCounter);
 		}
 	}
     public IEnumerator LoadScene()

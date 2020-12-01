@@ -44,43 +44,34 @@ public class MenuManager : MonoBehaviour {
 	public void StopGame(string state)
 	{
 
-		if (state == "stopFinal") {
+		if (state == "stopFinal")
+        {
 			Debug.Log ("stopFinal");
-			if (Screen.fullScreen) {
+			if (Screen.fullScreen)
+            {
 				_ExitFullScreen ();
 				Screen.fullScreen = !Screen.fullScreen;
 			}
-
-			if (!External.Instance.Preview)
-				StartCoroutine (CallStop ());
-			else {
+			else
+            {
 				Debug.Log ("stoped");
 				_OnGameStopped ();
-				// _OnGameStopped();
 			}
-		} else {
+		}
+        else
+        {
 			Debug.Log ("Pause Stop");
-			if (EventController.instance != null && !External.Instance.Preview)
-			{
-				if (GameManager.Instance.Accessibilty)
-				{
-					EventController.instance.DecreaseCountForPlayPause();
-				}
-				//EventController.instance.DecreaseCountForPlayPause();
-				EventController.instance.currentGamePercentage();
-			}
+			
 			Time.timeScale = 1f;
-			if (AccessibilityManager.instance != null)
-				AccessibilityManager.instance.LastCheck = false;
 			
 			Debug.Log ("Ending the game");
-			if (Screen.fullScreen) {
+			if (Screen.fullScreen)
+            {
 				_ExitFullScreen ();
 				Screen.fullScreen = !Screen.fullScreen;
 			}
-			if (!External.Instance.Preview)
-				StartCoroutine (CallStop ());
-			else {
+			else
+            {
 				Debug.Log ("else");
 				_OnGameStopped ();
 			}
@@ -90,25 +81,18 @@ public class MenuManager : MonoBehaviour {
 	//Btn on start or pause
 	public void PlayGame()  
 	{
-		if (isMenu) {
+		if (isMenu)
+        {
 			Debug.Log ("isMenu" + isMenu);
 			if(clickPlay)
 				StartCoroutine (Play ());
 			clickPlay = false;
-		} else {
+		}
+        else
+        {
 			Debug.Log ("pause play");
-			if (EventController.instance != null && !External.Instance.Preview)
-			{
-				EventController.instance.DecreaseCountForPlayPause();
-			}
 			Time.timeScale = 1f;
 			pauseScreen.SetActive(false);
-
-			if (AccessibilityManager.instance != null)
-			{
-				AccessibilityManager.instance.ShowPausePanel = true;
-				AccessibilityManager.instance.gameWasPaused = true;
-			}
 		}
 	}
 	IEnumerator Play()
